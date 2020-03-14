@@ -20,8 +20,6 @@ public class Window extends JFrame implements ActionListener {
     private final ColorMenu menuFC = new ColorMenu("Foreground color", Color.WHITE, this);
     private final ColorMenu menuBC = new ColorMenu("Background color", Color.BLACK, this);
 
-    private final FontMenu menuFont = new FontMenu("Font");
-
     private Clock clock;
 
 
@@ -34,7 +32,6 @@ public class Window extends JFrame implements ActionListener {
         menuEdit.add(menuBC);
         menuEdit.add(menuFC);
         menuEdit.addSeparator();
-        menuEdit.add(menuFont);
 
         menuBar.add(menuEdit);
         
