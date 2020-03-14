@@ -1,2 +1,4 @@
 *.class
 .vscode/
+JFontChooser.java
+FontMenu.java

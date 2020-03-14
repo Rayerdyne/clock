@@ -1,14 +1,16 @@
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.ButtonGroup;
+// import javax.swing.JMenuItem;
+// import javax.swing.JColorChooser;
+// import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ColorMenu extends JMenu {
+public class ColorMenu extends JMenu /*implements ActionListener*/ {
 
 	/** A simple menu to pick a color
-	 *
+	 * For later: add a popup option with a JColorChooser
 	 */
     private static final long serialVersionUID = 1L;
 
@@ -21,6 +23,8 @@ public class ColorMenu extends JMenu {
         Color.YELLOW,       Color.ORANGE,
         Color.RED,          Color.PINK};
 
+    // private Color selectedColor = null;
+    // private boolean isLastCustom = false;
     private ButtonGroup bg = new ButtonGroup();
     private final JRadioButtonMenuItem radios[] = {
         new JRadioButtonMenuItem("Black"),
@@ -37,13 +41,17 @@ public class ColorMenu extends JMenu {
         new JRadioButtonMenuItem("Pink")
     };
 
+    // private final JMenuItem customColor = new JMenuItem("Custom");
+    // private final JColorChooser cc = new JColorChooser();
+
     public ColorMenu(String name, Color defaultColor, ActionListener al) {
         super(name);
 
         for (int i = 0; i < nColors; i++) {
             bg.add(radios[i]);
             this.add(radios[i]);
-            radios[i].addActionListener(al);
+            // radios[i].addActionListener(al);
+            // radios[i].addActionListener(this);
         }
 
         int k = 0;
@@ -57,11 +65,19 @@ public class ColorMenu extends JMenu {
     }
 
     public Color getMenuColor() {
-
-        for (int i = 0; i < nColors; i++) {
+        for (int i = 0; i < nColors; i++)
             if (radios[i].isSelected())
                 return colors[i];
-        }
-        return Color.BLACK;
+        return null;
     }
+
+    /*public void actionPerformed(ActionEvent e) {
+        if (isLastCustom && selectedColor != null)
+            return;
+        else 
+            for (int i = 0; i < nColors; i++) {
+                if (radios[i].isSelected()) 
+                    selectedColor = colors[i];
+            }
+    }*/
 }
