@@ -1,9 +1,13 @@
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+// import javax.swing.JMenuItem;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements ActionListener {
 
     /** Holds the clock, and the menubar
      *
@@ -13,8 +17,10 @@ public class Window extends JFrame {
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEdit = new JMenu("Edit");
 
-    private final ColorMenu menuFC = new ColorMenu("Foreground color");
-    private final ColorMenu menuBC = new ColorMenu("Background color");
+    private final ColorMenu menuFC = new ColorMenu("Foreground color", Color.WHITE, this);
+    private final ColorMenu menuBC = new ColorMenu("Background color", Color.BLACK, this);
+
+    private Clock clock;
 
 
     public Window() {
@@ -28,10 +34,16 @@ public class Window extends JFrame {
 
         menuBar.add(menuEdit);
         
-        final Clock c = new Clock();
-        this.setContentPane(c);
-        this.setMenuBar(menuBar);
+        clock = new Clock();
+        this.setContentPane(clock);
+        this.setJMenuBar(menuBar);
 
         this.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        clock.setFGColor(menuFC.getMenuColor());
+        clock.setBGColor(menuBC.getMenuColor());
+        clock.repaint();
     }
 };

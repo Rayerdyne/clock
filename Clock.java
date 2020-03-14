@@ -69,5 +69,9 @@ public class Clock extends JPanel {
         }
         
         //g.drawLine(10, 10, x-20, y-20);
-  }               
+    }
+    
+    public void setFGColor(Color c) {   foreground = c;     }
+    public void setBGColor(Color c) {   background = c;     }
+    
 }
