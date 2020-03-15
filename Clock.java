@@ -19,6 +19,10 @@ public class Clock extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private static final int minInHour = 60;
 
+    public static final String DEF_FONT_NAME = "Courier";
+    public static final int DEF_FONT_SIZE = 14;
+    public static final int DEF_BORDER_R = 20;
+
     private LocalTime time;
     private final Timer timer = new Timer(1000, this);
     private int clockThickness;
@@ -46,7 +50,7 @@ public class Clock extends JPanel implements ActionListener {
         clockThickness = 5;
         borderX = 10;
         borderY = 10;
-        borderR = 20;
+        borderR = DEF_BORDER_R;
         cpHourRatio = 30;
         cpMinuteRatio = 50;
         cpSecondRatio = 60;
@@ -59,7 +63,7 @@ public class Clock extends JPanel implements ActionListener {
         cpMinuteColor = Color.WHITE;
         cpSecondColor = Color.RED;
         fontsize = 14;
-        font = new Font("Courier", Font.PLAIN, fontsize);
+        font = new Font(DEF_FONT_NAME, Font.PLAIN, DEF_FONT_SIZE);
     }
 
     public void paintComponent(final Graphics g) {
@@ -150,9 +154,14 @@ public class Clock extends JPanel implements ActionListener {
     public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;  }
     public void setCPSecondColor(Color c)   {   cpSecondColor = c;  }
 
+    public void setBorderR(int value)       {   borderR = value;    }
+
+    public String fontName()    {   return font.getFontName();      }
+    public int fontSize()       {   return fontsize;                }
+
     public void setFont(String fontName, int fontSize) {
-        System.out.println("Yo new Font" + fontName + fontSize);
         try {
+            this.fontsize = fontSize;
             Font font2 = new Font(fontName, Font.PLAIN, fontSize);
             font = font2;
         }

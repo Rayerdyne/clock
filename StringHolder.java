@@ -26,6 +26,7 @@ public class StringHolder implements ActionListener {
     public void setMessage(String s)    {  message = s;  }
     public void setTitle(String s)      {  title = s;  }
     public void setMessageType(int mt)  {  messageType = mt;  }
+    public void setContent(String s)    {   this.s = s;  }
 
     public String content()  { return s; }
 }
