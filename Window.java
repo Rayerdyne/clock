@@ -24,7 +24,9 @@ public class Window extends JFrame implements ActionListener, KeyListener {
     private final ColorMenu menuBackgroundColor = new ColorMenu("Background color", Color.BLACK, this);
     private final ColorMenu menuCPHourColor = new ColorMenu("Hour clock pointer", Color.WHITE, this);
     private final ColorMenu menuCPMinuteColor = new ColorMenu("Minute clock pointer", Color.WHITE, this);
-    private final ColorMenu menuCPSecondColor = new ColorMenu("Minute clock pointer", Color.RED, this);
+    private final ColorMenu menuCPSecondColor = new ColorMenu("Second clock pointer", Color.RED, this);
+
+    private final FontMenu menuFont = new FontMenu("Font", this);
 
     private Clock clock;
 
@@ -38,10 +40,14 @@ public class Window extends JFrame implements ActionListener, KeyListener {
         menuEdit.add(menuBackgroundColor);
         menuEdit.add(menuForegroundColor);
         menuEdit.addSeparator();
+        
         menuEdit.add(menuCPHourColor);
         menuEdit.add(menuCPMinuteColor);
         menuEdit.add(menuCPSecondColor);
+        menuEdit.addSeparator();
 
+        menuEdit.add(menuFont);
+        
 
         menuBar.add(menuEdit);
         isMenuBarShown = true;
@@ -60,6 +66,7 @@ public class Window extends JFrame implements ActionListener, KeyListener {
         clock.setCPHourColor(menuCPHourColor.getMenuColor());
         clock.setCPMinuteColor(menuCPMinuteColor.getMenuColor());
         clock.setCPSecondColor(menuCPSecondColor.getMenuColor());
+        clock.setFont(menuFont.getFontName(), menuFont.getFontSize());
         clock.repaint();
     }
 

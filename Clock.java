@@ -6,6 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.time.LocalTime;
@@ -56,8 +58,8 @@ public class Clock extends JPanel implements ActionListener {
         cpHourColor = Color.WHITE;
         cpMinuteColor = Color.WHITE;
         cpSecondColor = Color.RED;
-        fontsize = 14;
-        font = new Font("Calibri", Font.PLAIN, fontsize);
+        fontsize = 20;
+        font = new Font("Times New Roman", Font.PLAIN, fontsize);
     }
 
     public void paintComponent(final Graphics g) {
@@ -147,6 +149,18 @@ public class Clock extends JPanel implements ActionListener {
     public void setCPHourColor(Color c)     {   cpHourColor = c;    }
     public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;  }
     public void setCPSecondColor(Color c)   {   cpSecondColor = c;  }
+
+    public void setFont(String fontName, int fontSize) {
+        System.out.println("Yo new Font");
+        try {
+            Font font2 = new Font(fontName, Font.PLAIN, fontSize);
+            font = font2;
+        }
+        catch(NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error catched : " + 
+               "cannot create font" + e, "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     
     private static double angleOfTime(int min) {
         /** Converts the position on min to a an angle, measured
