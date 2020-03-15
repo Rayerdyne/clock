@@ -15,12 +15,12 @@ public class Clock extends JPanel {
     private static final int minInHour = 60;
 
     private LocalTime time;
-    private int thickness;
+    private int clockThickness;
     private int borderX;
     private int borderY;
     private int borderR;
-    private int cpHLength;
-    private int cpMLength;
+    private int cpHRatio;
+    private int cpMRatio;
     private int cpHThickness;
     private int cpMThickness;
 
@@ -33,12 +33,12 @@ public class Clock extends JPanel {
 
     public Clock() {
         time = LocalTime.now();
-        thickness = 5;
+        clockThickness = 5;
         borderX = 10;
         borderY = 10;
         borderR = 20;
-        cpHLength = 40;
-        cpMLength = 60;
+        cpHRatio = 30;
+        cpMRatio = 50;
         cpHThickness = 5;
         cpMThickness = 5;
         background = Color.BLACK;
@@ -59,7 +59,7 @@ public class Clock extends JPanel {
         g2.setColor(background);
         g2.fillRect(0, 0, x, y);
         
-        g2.setStroke(new BasicStroke(thickness));
+        g2.setStroke(new BasicStroke(clockThickness));
         g2.setColor(foreground);
         g2.drawOval(borderX, borderY, x-2*borderX, y-2*borderY);
 
@@ -93,11 +93,18 @@ public class Clock extends JPanel {
         final int minute = time.getMinute();
         final double theta_h = angleOfTime(5*hour + 5*minute / minInHour);
         final double theta_m = angleOfTime(minute);
+        final double cosTheta_h = Math.cos(theta_h);
+        final double cosTheta_m = Math.cos(theta_m);
+        final int r_h = (int) Math.round(
+            Math.sqrt((double) b*b / (1.0 - e*e*cosTheta_h*cosTheta_h) ));
+        final int r_m = (int) Math.round(
+            Math.sqrt((double) b*b / (1.0 - e*e*cosTheta_m*cosTheta_m) ));
+        
 
-        final int[] xph = colckPointerX(theta_h, xc, cpHThickness, cpHLength);
-        final int[] yph = colckPointerY(theta_h, yc, cpHThickness, cpHLength);
-        final int[] xpm = colckPointerX(theta_m, xc, cpMThickness, cpMLength);
-        final int[] ypm = colckPointerY(theta_m, yc, cpMThickness, cpMLength);
+        final int[] xph = colckPointerX(theta_h, xc, cpHThickness, (r_h * cpHRatio) / 100);
+        final int[] yph = colckPointerY(theta_h, yc, cpHThickness, (r_h * cpHRatio) / 100);
+        final int[] xpm = colckPointerX(theta_m, xc, cpMThickness, (r_m * cpMRatio) / 100);
+        final int[] ypm = colckPointerY(theta_m, yc, cpMThickness, (r_m * cpMRatio) / 100);
 
         g2.setColor(cpHourColor);
         g2.fillPolygon(xph, yph, 3);
