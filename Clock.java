@@ -58,12 +58,10 @@ public class Clock extends JPanel {
         final Graphics2D g2 = (Graphics2D) g;
         g2.setColor(background);
         g2.fillRect(0, 0, x, y);
-        System.out.println("1 " + g2.getColor());
         
         g2.setStroke(new BasicStroke(thickness));
         g2.setColor(foreground);
         g2.drawOval(borderX, borderY, x-2*borderX, y-2*borderY);
-        System.out.println("2 " + g2.getColor());
 
         final int a, b;
         if (x > y) {    a = x / 2 - borderX;
@@ -93,7 +91,6 @@ public class Clock extends JPanel {
         time = LocalTime.now();
         final int hour = time.getHour();
         final int minute = time.getMinute();
-        System.out.println(time + "h=" + hour + " min=" + minute);
         final double theta_h = angleOfTime(5*hour + 5*minute / minInHour);
         final double theta_m = angleOfTime(minute);
 
@@ -104,11 +101,9 @@ public class Clock extends JPanel {
 
         g2.setColor(cpHourColor);
         g2.fillPolygon(xph, yph, 3);
-        System.out.println("3 " + g2.getColor());
 
         g2.setColor(cpMinuteColor);
         g2.fillPolygon(xpm, ypm, 3);
-        System.out.println("4 " + g2.getColor());
         
     }
     
@@ -127,7 +122,6 @@ public class Clock extends JPanel {
          *  horizontal right.
          */
         final int min2 = (15 + minInHour - min) % minInHour;
-        System.out.println("min "+ min + " min2 " + min2);
         return (2*Math.PI *(double) min2 / (double) minInHour);
     }
 

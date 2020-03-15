@@ -50,7 +50,7 @@ public class ColorMenu extends JMenu /*implements ActionListener*/ {
         for (int i = 0; i < nColors; i++) {
             bg.add(radios[i]);
             this.add(radios[i]);
-            // radios[i].addActionListener(al);
+            radios[i].addActionListener(al);
             // radios[i].addActionListener(this);
         }
 
