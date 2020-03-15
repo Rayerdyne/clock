@@ -58,10 +58,12 @@ public class Clock extends JPanel {
         final Graphics2D g2 = (Graphics2D) g;
         g2.setColor(background);
         g2.fillRect(0, 0, x, y);
+        System.out.println("1 " + g2.getColor());
         
         g2.setStroke(new BasicStroke(thickness));
         g2.setColor(foreground);
         g2.drawOval(borderX, borderY, x-2*borderX, y-2*borderY);
+        System.out.println("2 " + g2.getColor());
 
         final int a, b;
         if (x > y) {    a = x / 2 - borderX;
@@ -91,6 +93,7 @@ public class Clock extends JPanel {
         time = LocalTime.now();
         final int hour = time.getHour();
         final int minute = time.getMinute();
+        System.out.println(time + "h=" + hour + " min=" + minute);
         final double theta_h = angleOfTime(5*hour + 5*minute / minInHour);
         final double theta_m = angleOfTime(minute);
 
@@ -101,16 +104,22 @@ public class Clock extends JPanel {
 
         g2.setColor(cpHourColor);
         g2.fillPolygon(xph, yph, 3);
+        System.out.println("3 " + g2.getColor());
 
         g2.setColor(cpMinuteColor);
         g2.fillPolygon(xpm, ypm, 3);
+        System.out.println("4 " + g2.getColor());
         
     }
     
-    public void setForegroundColor(Color c) {   foreground = c;     }
-    public void setBackgroundColor(Color c) {   background = c;     }
-    public void setCPHourColor(Color c)     {   cpHourColor = c;    }
-    public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;  }
+    public void setForegroundColor(Color c) {   foreground = c;
+        System.out.println("foreground = " + c);     }
+    public void setBackgroundColor(Color c) {   background = c;
+        System.out.println("background = " + c);          }
+    public void setCPHourColor(Color c)     {   cpHourColor = c;
+        System.out.println("cph = " + c + " vs " + cpHourColor);         }
+    public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;
+        System.out.println("cpm = " + c + " vs " + cpMinuteColor);       }
     
     private static double angleOfTime(int min) {
         /** Converts the position on min to a an angle, measured
@@ -118,7 +127,8 @@ public class Clock extends JPanel {
          *  horizontal right.
          */
         final int min2 = (15 + minInHour - min) % minInHour;
-        return (2*Math.PI *(double) minInHour / (double) min2);
+        System.out.println("min "+ min + " min2 " + min2);
+        return (2*Math.PI *(double) min2 / (double) minInHour);
     }
 
     private static int[] colckPointerX(double theta, int xc, int cpThickness, int cpLength) {
@@ -133,9 +143,9 @@ public class Clock extends JPanel {
     private static int[] colckPointerY(double theta, int yc, int cpThickness, int cpLength) {
         double theta2 = theta + Math.PI / 2;
 
-        final int[] r =   { yc + (int) Math.round(cpThickness * Math.sin(theta2) / 2.0),
-                            yc + (int) Math.round(cpLength * Math.sin(theta)),
-                            yc + (int) Math.round(-cpThickness * Math.sin(theta2) / 2.0)     };
+        final int[] r =   { yc - (int) Math.round(cpThickness * Math.sin(theta2) / 2.0),
+                            yc - (int) Math.round(cpLength * Math.sin(theta)),
+                            yc - (int) Math.round(-cpThickness * Math.sin(theta2) / 2.0)     };
         return r;
     }
 }
