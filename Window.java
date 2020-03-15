@@ -21,6 +21,7 @@ public class Window extends JFrame implements ActionListener {
     private final ColorMenu menuBackgroundColor = new ColorMenu("Background color", Color.BLACK, this);
     private final ColorMenu menuCPHourColor = new ColorMenu("Hour clock pointer", Color.WHITE, this);
     private final ColorMenu menuCPMinuteColor = new ColorMenu("Minute clock pointer", Color.WHITE, this);
+    private final ColorMenu menuCPSecondColor = new ColorMenu("Minute clock pointer", Color.RED, this);
 
     private Clock clock;
 
@@ -36,6 +37,7 @@ public class Window extends JFrame implements ActionListener {
         menuEdit.addSeparator();
         menuEdit.add(menuCPHourColor);
         menuEdit.add(menuCPMinuteColor);
+        menuEdit.add(menuCPSecondColor);
 
 
         menuBar.add(menuEdit);
@@ -52,6 +54,7 @@ public class Window extends JFrame implements ActionListener {
         clock.setBackgroundColor(menuBackgroundColor.getMenuColor());
         clock.setCPHourColor(menuCPHourColor.getMenuColor());
         clock.setCPMinuteColor(menuCPMinuteColor.getMenuColor());
+        clock.setCPSecondColor(menuCPSecondColor.getMenuColor());
         clock.repaint();
     }
 };
