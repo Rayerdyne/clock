@@ -58,8 +58,8 @@ public class Clock extends JPanel implements ActionListener {
         cpHourColor = Color.WHITE;
         cpMinuteColor = Color.WHITE;
         cpSecondColor = Color.RED;
-        fontsize = 20;
-        font = new Font("Times New Roman", Font.PLAIN, fontsize);
+        fontsize = 14;
+        font = new Font("Courier", Font.PLAIN, fontsize);
     }
 
     public void paintComponent(final Graphics g) {
@@ -151,7 +151,7 @@ public class Clock extends JPanel implements ActionListener {
     public void setCPSecondColor(Color c)   {   cpSecondColor = c;  }
 
     public void setFont(String fontName, int fontSize) {
-        System.out.println("Yo new Font");
+        System.out.println("Yo new Font" + fontName + fontSize);
         try {
             Font font2 = new Font(fontName, Font.PLAIN, fontSize);
             font = font2;

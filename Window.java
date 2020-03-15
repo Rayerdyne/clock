@@ -9,7 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 // import javax.swing.JMenuItem;
 
-public class Window extends JFrame implements ActionListener, KeyListener {
+public class Window extends JFrame implements ActionListener, KeyListener, SignalReceiver {
 
     /** Holds the clock, and the menubar
      *
@@ -85,8 +85,10 @@ public class Window extends JFrame implements ActionListener, KeyListener {
             repaint();
         }
     }
-
     public void keyReleased(KeyEvent e) {}
     public void keyTyped(KeyEvent e) {}
 
+    public void trigger() {
+        actionPerformed(null);
+    }
 };

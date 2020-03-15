@@ -4,34 +4,34 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class FontMenu extends JMenu implements ActionListener {
+public class FontMenu extends JMenu implements SignalReceiver {
     /** Simple menu to describe a font (name; size)
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    private static final StringHolder INIT_SIZE = new StringHolder("14", "Font size :",
-        "Select font size", JOptionPane.INFORMATION_MESSAGE);
-    private static final StringHolder INIT_NAME = new StringHolder("Calibri", 
-        "Font name: ", "Select font", JOptionPane.INFORMATION_MESSAGE);
-
     private final JMenuItem fontNameItem = new JMenuItem("Font name");
     private final JMenuItem fontSizeItem = new JMenuItem("Font size");
     private final JMenuItem fontDescriptionItem = new JMenuItem("Calibri - 14");
+    private final SignalReceiver receiver; 
 
-    private StringHolder sizeStr = INIT_SIZE;
-    private StringHolder name = INIT_NAME;
+    private StringHolder sizeStr = new StringHolder("14", "Font size :",
+        "Select font size", JOptionPane.INFORMATION_MESSAGE, this);;
+    private StringHolder name = new StringHolder("Calibri", 
+        "Font name: ", "Select font", JOptionPane.INFORMATION_MESSAGE, this);;
 
 
-    public FontMenu(String name, ActionListener al) {
+    public FontMenu(String name, SignalReceiver receiver) {
         super(name);
 
+        this.receiver = receiver;
+
         fontNameItem.addActionListener(this.name);
-        fontNameItem.addActionListener(al);
-        fontNameItem.addActionListener(this);
+        // fontNameItem.addActionListener(this);
+        // fontNameItem.addActionListener(al);
         fontSizeItem.addActionListener(this.sizeStr);
-        fontSizeItem.addActionListener(al);
-        fontSizeItem.addActionListener(this);
+        // fontSizeItem.addActionListener(this);
+        // fontSizeItem.addActionListener(al);
 
         this.add(fontNameItem);
         this.add(fontSizeItem);
@@ -40,8 +40,9 @@ public class FontMenu extends JMenu implements ActionListener {
 
     public String getFontName() {   return name.content();  }
     public int getFontSize()    {   return Integer.parseInt(sizeStr.content());  }
-
-    public void actionPerformed(ActionEvent e) {
+    
+    public void trigger() {
         fontDescriptionItem.setText(name.content() + " - " + sizeStr.content());
+        receiver.trigger();
     }
 };
