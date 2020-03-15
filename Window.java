@@ -17,8 +17,10 @@ public class Window extends JFrame implements ActionListener {
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuEdit = new JMenu("Edit");
 
-    private final ColorMenu menuFC = new ColorMenu("Foreground color", Color.WHITE, this);
-    private final ColorMenu menuBC = new ColorMenu("Background color", Color.BLACK, this);
+    private final ColorMenu menuForegroundColor = new ColorMenu("Foreground color", Color.WHITE, this);
+    private final ColorMenu menuBackgroundColor = new ColorMenu("Background color", Color.BLACK, this);
+    private final ColorMenu menuCPHourColor = new ColorMenu("Hour clock pointer", Color.WHITE, this);
+    private final ColorMenu menuCPMinuteColor = new ColorMenu("Minute clock pointer", Color.WHITE, this);
 
     private Clock clock;
 
@@ -29,9 +31,12 @@ public class Window extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        menuEdit.add(menuBC);
-        menuEdit.add(menuFC);
+        menuEdit.add(menuBackgroundColor);
+        menuEdit.add(menuForegroundColor);
         menuEdit.addSeparator();
+        menuEdit.add(menuCPHourColor);
+        menuEdit.add(menuCPMinuteColor);
+
 
         menuBar.add(menuEdit);
         
@@ -43,8 +48,10 @@ public class Window extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        clock.setFGColor(menuFC.getMenuColor());
-        clock.setBGColor(menuBC.getMenuColor());
+        clock.setForegroundColor(menuForegroundColor.getMenuColor());
+        clock.setBackgroundColor(menuBackgroundColor.getMenuColor());
+        clock.setCPHourColor(menuCPHourColor.getMenuColor());
+        clock.setCPMinuteColor(menuCPMinuteColor.getMenuColor());
         clock.repaint();
     }
 };
