@@ -47,18 +47,16 @@ public class Clock extends JPanel implements ActionListener {
     private int borderX;
     private int borderY;
     private int borderR;
-    private int cpHourRatio;
-    private int cpMinuteRatio;
-    private int cpSecondRatio;
-    private int cpHourThickness;
-    private int cpMinuteThickness;
-    private int cpSecondThickness;
+
+    private ClockPointer hour = new ClockPointer(DEF_CPHOUR_RATIO,
+        DEF_CPHOUR_THICKNESS, DEF_CPHOUR_COLOR);
+    private ClockPointer minute = new ClockPointer(DEF_CPMINUTE_RATIO,
+        DEF_CPMINUTE_THICKNESS, DEF_CPMINUTE_COLOR);
+    private ClockPointer second = new ClockPointer(DEF_CPSECOND_RATIO,
+        DEF_CPSECOND_THICKNESS, DEF_CPSECOND_COLOR);
 
     private Color background;
     private Color foreground;
-    private Color cpMinuteColor;
-    private Color cpHourColor;
-    private Color cpSecondColor;
     private int fontsize;
     private Font font;
 
@@ -69,17 +67,8 @@ public class Clock extends JPanel implements ActionListener {
         borderX = DEF_BORDER_X;
         borderY = DEF_BORDER_Y;
         borderR = DEF_BORDER_R;
-        cpHourRatio = DEF_CPHOUR_RATIO;
-        cpMinuteRatio = DEF_CPMINUTE_RATIO;
-        cpSecondRatio = DEF_CPSECOND_RATIO;
-        cpHourThickness = DEF_CPHOUR_THICKNESS;
-        cpMinuteThickness = DEF_CPMINUTE_THICKNESS;
-        cpSecondThickness = DEF_CPSECOND_THICKNESS;
         background = DEF_BACKGROUD_COLOR;
         foreground = DEF_FOREGROUD_COLOR;
-        cpHourColor = DEF_CPHOUR_COLOR;
-        cpMinuteColor = DEF_CPMINUTE_COLOR;
-        cpSecondColor = DEF_CPSECOND_COLOR;
         fontsize = DEF_FONT_SIZE;
         font = new Font(DEF_FONT_NAME, Font.PLAIN, DEF_FONT_SIZE);
     }
@@ -126,66 +115,30 @@ public class Clock extends JPanel implements ActionListener {
         time = LocalTime.now();
         final int hour = time.getHour();
         final int minute = time.getMinute();
-        final double theta_h = angleOfTime(5*hour + 5*minute / minInHour);
-        final double theta_m = angleOfTime(minute);
-
-        final double cosTheta_h = Math.cos(theta_h);
-        final double cosTheta_m = Math.cos(theta_m);
-        final double r_h = Math.sqrt((double) b*b /
-            (1.0 - e*e*cosTheta_h*cosTheta_h) );
-        final double r_m = Math.sqrt((double) b*b /
-            (1.0 - e*e*cosTheta_m*cosTheta_m) );
-        
-        
-        final int[] xph = colckPointerX(theta_h, xc, cpHourThickness,
-            (r_h * cpHourRatio) / 100);
-        final int[] yph = colckPointerY(theta_h, yc, cpHourThickness,
-            (r_h * cpHourRatio) / 100);
-        final int[] xpm = colckPointerX(theta_m, xc, cpMinuteThickness,
-            (r_m * cpMinuteRatio) / 100);
-        final int[] ypm = colckPointerY(theta_m, yc, cpMinuteThickness,
-            (r_m * cpMinuteRatio) / 100);
-        
-        g2.setColor(cpHourColor);
-        g2.fillPolygon(xph, yph, 3);
-        
-        g2.setColor(cpMinuteColor);
-        g2.fillPolygon(xpm, ypm, 3);
         
         
         if (showSeconds) {
-            final int second = time.getSecond();
-            final double theta_s = angleOfTime(second);
-            final double cosTheta_s = Math.cos(theta_s);
-            final double r_s = Math.sqrt((double) b*b /
-                (1.0 - e*e*cosTheta_s*cosTheta_s) );
-
-            final int[] xps = colckPointerX(theta_s, xc, cpSecondThickness,
-                (r_s * cpSecondRatio) / 100);
-            final int[] yps = colckPointerY(theta_s, yc, cpSecondThickness,
-                (r_s * cpSecondRatio) / 100);
-            g2.setColor(cpSecondColor);
-            g2.fillPolygon(xps, yps, 3);
         }
         
     }
     
     public void setForegroundColor(Color c) {   foreground = c;   }
     public void setBackgroundColor(Color c) {   background = c;   }
-    public void setCPHourColor(Color c)     {   cpHourColor = c;  }
-    public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;  }
-    public void setCPSecondColor(Color c)   {   cpSecondColor = c;  }
-
+    
     public void setClockThickness(int value)    {   clockThickness = value;  }
     public void setBorderR(int value)           {   borderR = value;  }
     public void setBorderX(int value)           {   borderX = value;  }
     public void setBorderY(int value)           {   borderY = value;  }
-    public void setCPHourRatio(int value)       {   cpHourRatio = value;  }
-    public void setCPMinuteRatio(int value)     {   cpMinuteRatio = value;  }
-    public void setCPSecondRatio(int value)     {   cpSecondRatio = value;  }
-    public void setCPHourThickness(int value)   {   cpHourThickness = value;  }
-    public void setCPMinuteThickness(int value) {   cpMinuteThickness = value;  }
-    public void setCPSecondThickness(int value) {   cpSecondThickness = value;  }
+    
+    public void setCPHourColor(Color c)         {   hour.setColor(c);    }
+    public void setCPMinuteColor(Color c)       {   minute.setColor(c);  }
+    public void setCPSecondColor(Color c)       {   second.setColor(c);  }
+    public void setCPHourRatio(int value)       {   hour.setRatio(value);    }
+    public void setCPMinuteRatio(int value)     {   minute.setRatio(value);  }
+    public void setCPSecondRatio(int value)     {   second.setRatio(value);  }
+    public void setCPHourThickness(int value)   {   hour.setThickness(value);    }
+    public void setCPMinuteThickness(int value) {   minute.setThickness(value);  }
+    public void setCPSecondThickness(int value) {   second.setThickness(value);  }
 
     public String fontName()    {   return font.getFontName();      }
     public int fontSize()       {   return fontsize;                }
@@ -200,37 +153,6 @@ public class Clock extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error catched : " + 
                "cannot create font" + e, "Error", JOptionPane.WARNING_MESSAGE);
         }
-    }
-    
-    private static double angleOfTime(int min) {
-        /** Converts the position on min to a an angle, measured
-         *  couterclockwise, theta = 0 corresponds to the
-         *  horizontal right.
-         */
-        final int min2 = (15 + minInHour - min) % minInHour;
-        return (2*Math.PI *(double) min2 / (double) minInHour);
-    }
-
-    private static int[] colckPointerX(double theta, int xc, int cpThickness,
-        double cpLength) {
-
-        double theta2 = theta + Math.PI / 2;
-
-        final int[] r = { xc + (int) Math.round(cpThickness * Math.cos(theta2) / 2.0),
-                      xc + (int) Math.round(cpLength * Math.cos(theta)),
-                      xc + (int) Math.round(-cpThickness * Math.cos(theta2) / 2.0)     };
-        return r;
-    }
-
-    private static int[] colckPointerY(double theta, int yc, int cpThickness,
-        double cpLength) {
-
-        double theta2 = theta + Math.PI / 2;
-
-        final int[] r = { yc - (int) Math.round(cpThickness * Math.sin(theta2) / 2.0),
-                      yc - (int) Math.round(cpLength * Math.sin(theta)),
-                      yc - (int) Math.round(-cpThickness * Math.sin(theta2) / 2.0)     };
-        return r;
     }
 
     public void actionPerformed(ActionEvent e) {
