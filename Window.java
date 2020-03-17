@@ -38,6 +38,7 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         Clock.DEF_CPSECOND_COLOR, this);
 
     private final JMenuItem itemHide = new JMenuItem("Hide menu bar : h");
+    private final BoolMenuItem itemSecond = new BoolMenuItem("Show seconds", true, this);
     private final FontMenu menuFont = new FontMenu("Font", Clock.DEF_FONT_NAME, Clock.DEF_FONT_SIZE, this);
 
     private final ParamMenuItem[] items = new ParamMenuItem[Clock.N_INT_PARAMETERS];
@@ -89,6 +90,7 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         //   EDIT  MENU
         itemHide.setEnabled(false);
         menuEdit.add(itemHide);
+        menuEdit.add(itemSecond);
         menuEdit.addSeparator();
 
         menuEdit.add(menuFont);
@@ -126,9 +128,11 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         clock.setCPSecondColor(menuCPSecondColor.getMenuColor());
         clock.setFont(menuFont.getFontName(), menuFont.getFontSize());
 
+        clock.setcaca;
         for (int i = 0; i < Clock.N_INT_PARAMETERS; i++) {
             itemsSetters[i].set(items[i].value());
         }
+
         clock.repaint();
     }
 

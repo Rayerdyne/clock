@@ -26,6 +26,7 @@ public class Clock extends JPanel implements ActionListener {
     public static final Color DEF_BACKGROUD_COLOR = Color.BLACK;
     public static final Color DEF_FOREGROUD_COLOR = Color.WHITE;
     public static final int DEF_CLOCK_THICKNESS = 5;
+    public static final boolean DEF_SHOW_SECONDS = true;
     public static final int DEF_BORDER_X = 10;
     public static final int DEF_BORDER_Y = 10;
     public static final int DEF_BORDER_R = 20;
@@ -42,6 +43,7 @@ public class Clock extends JPanel implements ActionListener {
     private LocalTime time;
     private final Timer timer = new Timer(1000, this);
     private int clockThickness;
+    private boolean showSeconds = DEF_SHOW_SECONDS;
     private int borderX;
     private int borderY;
     private int borderR;
@@ -124,22 +126,17 @@ public class Clock extends JPanel implements ActionListener {
         time = LocalTime.now();
         final int hour = time.getHour();
         final int minute = time.getMinute();
-        final int second = time.getSecond();
         final double theta_h = angleOfTime(5*hour + 5*minute / minInHour);
         final double theta_m = angleOfTime(minute);
-        final double theta_s = angleOfTime(second);
 
         final double cosTheta_h = Math.cos(theta_h);
         final double cosTheta_m = Math.cos(theta_m);
-        final double cosTheta_s = Math.cos(theta_s);
         final double r_h = Math.sqrt((double) b*b /
             (1.0 - e*e*cosTheta_h*cosTheta_h) );
         final double r_m = Math.sqrt((double) b*b /
             (1.0 - e*e*cosTheta_m*cosTheta_m) );
-        final double r_s = Math.sqrt((double) b*b /
-            (1.0 - e*e*cosTheta_s*cosTheta_s) );
         
-
+        
         final int[] xph = colckPointerX(theta_h, xc, cpHourThickness,
             (r_h * cpHourRatio) / 100);
         final int[] yph = colckPointerY(theta_h, yc, cpHourThickness,
@@ -148,19 +145,28 @@ public class Clock extends JPanel implements ActionListener {
             (r_m * cpMinuteRatio) / 100);
         final int[] ypm = colckPointerY(theta_m, yc, cpMinuteThickness,
             (r_m * cpMinuteRatio) / 100);
-        final int[] xps = colckPointerX(theta_s, xc, cpSecondThickness,
-            (r_s * cpSecondRatio) / 100);
-        final int[] yps = colckPointerY(theta_s, yc, cpSecondThickness,
-            (r_s * cpSecondRatio) / 100);
-
+        
         g2.setColor(cpHourColor);
         g2.fillPolygon(xph, yph, 3);
-
+        
         g2.setColor(cpMinuteColor);
         g2.fillPolygon(xpm, ypm, 3);
+        
+        
+        if (showSeconds) {
+            final int second = time.getSecond();
+            final double theta_s = angleOfTime(second);
+            final double cosTheta_s = Math.cos(theta_s);
+            final double r_s = Math.sqrt((double) b*b /
+                (1.0 - e*e*cosTheta_s*cosTheta_s) );
 
-        g2.setColor(cpSecondColor);
-        g2.fillPolygon(xps, yps, 3);
+            final int[] xps = colckPointerX(theta_s, xc, cpSecondThickness,
+                (r_s * cpSecondRatio) / 100);
+            final int[] yps = colckPointerY(theta_s, yc, cpSecondThickness,
+                (r_s * cpSecondRatio) / 100);
+            g2.setColor(cpSecondColor);
+            g2.fillPolygon(xps, yps, 3);
+        }
         
     }
     
