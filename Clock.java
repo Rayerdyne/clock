@@ -102,6 +102,7 @@ public class Clock extends JPanel implements ActionListener {
 
             //centering the labels
             xs -= metrics.stringWidth(s) / 2;
+            ys += metrics.getHeight() / 4;
 
             g2.drawString(s, xs, ys);
         }
