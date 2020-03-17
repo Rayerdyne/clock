@@ -136,12 +136,15 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         clock.repaint();
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
         if(e.getKeyChar() == 'h') {
             if (isMenuBarShown == false) {
                 isMenuBarShown = true;
                 menuBar.setVisible(true);
                 this.setJMenuBar(this.menuBar);
+                this.setVisible(true);
             }
             else {
                 isMenuBarShown = false;
@@ -151,8 +154,6 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
             repaint();
         }
     }
-    public void keyReleased(KeyEvent e) {}
-    public void keyTyped(KeyEvent e) {}
 
     public void trigger() {
         actionPerformed(null);
