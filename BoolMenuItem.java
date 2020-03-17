@@ -10,11 +10,14 @@ public class BoolMenuItem extends JMenuItem implements ActionListener {
 
     private boolean state;
     private String name;
+    private SignalReceiver receiver;
 
     public BoolMenuItem(String name, boolean state, SignalReceiver receiver) {
-        super(name + state);
+        super(name + ": " + state);
         this.name = name;
         this.state = state;
+        this.receiver = receiver;
+        this.addActionListener(this);
     }
 
     public boolean state() {    return state;   }
@@ -24,6 +27,7 @@ public class BoolMenuItem extends JMenuItem implements ActionListener {
             state = false;
         else 
             state = true;
-        this.setText(name + state);
+        this.setText(name + ": " + state);
+        receiver.trigger();
     }
 }

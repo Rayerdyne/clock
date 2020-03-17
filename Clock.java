@@ -23,6 +23,7 @@ public class Clock extends JPanel implements ActionListener {
 
     public static final String DEF_FONT_NAME = "Courier";
     public static final int DEF_FONT_SIZE = 14;
+
     public static final Color DEF_BACKGROUD_COLOR = Color.BLACK;
     public static final Color DEF_FOREGROUD_COLOR = Color.WHITE;
     public static final int DEF_CLOCK_THICKNESS = 5;
@@ -30,6 +31,7 @@ public class Clock extends JPanel implements ActionListener {
     public static final int DEF_BORDER_X = 10;
     public static final int DEF_BORDER_Y = 10;
     public static final int DEF_BORDER_R = 20;
+
     public static final int DEF_CPHOUR_RATIO = 30;
     public static final int DEF_CPMINUTE_RATIO = 50;
     public static final int DEF_CPSECOND_RATIO = 60;
@@ -42,11 +44,11 @@ public class Clock extends JPanel implements ActionListener {
 
     private LocalTime time;
     private final Timer timer = new Timer(1000, this);
-    private int clockThickness;
+    private int clockThickness = DEF_CLOCK_THICKNESS;
     private boolean showSeconds = DEF_SHOW_SECONDS;
-    private int borderX;
-    private int borderY;
-    private int borderR;
+    private int borderX = DEF_BORDER_X;
+    private int borderY = DEF_BORDER_Y;
+    private int borderR = DEF_BORDER_R;
 
     private ClockPointer hour = new ClockPointer(DEF_CPHOUR_RATIO,
         DEF_CPHOUR_THICKNESS, DEF_CPHOUR_COLOR);
@@ -55,22 +57,14 @@ public class Clock extends JPanel implements ActionListener {
     private ClockPointer second = new ClockPointer(DEF_CPSECOND_RATIO,
         DEF_CPSECOND_THICKNESS, DEF_CPSECOND_COLOR);
 
-    private Color background;
-    private Color foreground;
-    private int fontsize;
-    private Font font;
+    private Color background = DEF_BACKGROUD_COLOR;
+    private Color foreground = DEF_FOREGROUD_COLOR;
+    private int fontsize = DEF_FONT_SIZE;
+    private Font font = new Font(DEF_FONT_NAME, Font.PLAIN, DEF_FONT_SIZE);
 
     public Clock() {
         time = LocalTime.now();
         timer.start();
-        clockThickness = DEF_CLOCK_THICKNESS;
-        borderX = DEF_BORDER_X;
-        borderY = DEF_BORDER_Y;
-        borderR = DEF_BORDER_R;
-        background = DEF_BACKGROUD_COLOR;
-        foreground = DEF_FOREGROUD_COLOR;
-        fontsize = DEF_FONT_SIZE;
-        font = new Font(DEF_FONT_NAME, Font.PLAIN, DEF_FONT_SIZE);
     }
 
     public void paintComponent(final Graphics g) {
@@ -113,11 +107,15 @@ public class Clock extends JPanel implements ActionListener {
         }
 
         time = LocalTime.now();
-        final int hour = time.getHour();
-        final int minute = time.getMinute();
+        final int h = time.getHour();
+        final int m = time.getMinute();
         
+        hour.drawAtTime(5*h + 5*m / minInHour, xc, yc, a, b, g2);
+        minute.drawAtTime(m, xc, yc, a, b, g2);
         
         if (showSeconds) {
+            final int s = time.getSecond();
+            second.drawAtTime(s, xc, yc, a, b, g2);
         }
         
     }
@@ -126,10 +124,11 @@ public class Clock extends JPanel implements ActionListener {
     public void setBackgroundColor(Color c) {   background = c;   }
     
     public void setClockThickness(int value)    {   clockThickness = value;  }
+    public void setShowSecond(boolean value)    {   showSeconds = value;  }
     public void setBorderR(int value)           {   borderR = value;  }
     public void setBorderX(int value)           {   borderX = value;  }
     public void setBorderY(int value)           {   borderY = value;  }
-    
+
     public void setCPHourColor(Color c)         {   hour.setColor(c);    }
     public void setCPMinuteColor(Color c)       {   minute.setColor(c);  }
     public void setCPSecondColor(Color c)       {   second.setColor(c);  }

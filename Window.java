@@ -128,7 +128,7 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         clock.setCPSecondColor(menuCPSecondColor.getMenuColor());
         clock.setFont(menuFont.getFontName(), menuFont.getFontSize());
 
-        clock.setcaca;
+        clock.setShowSecond(itemSecond.state());
         for (int i = 0; i < Clock.N_INT_PARAMETERS; i++) {
             itemsSetters[i].set(items[i].value());
         }

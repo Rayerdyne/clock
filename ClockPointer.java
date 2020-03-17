@@ -25,7 +25,7 @@ public class ClockPointer {
         final double r= Math.sqrt((double)b*b / (1.0 - e*e*cosTheta*cosTheta));
 
         final int[] xx = clockPointerX(theta, xc, (r*ratio) / 100);
-        final int[] yy = clockPointerY(theta, xc, (r*ratio) / 100);
+        final int[] yy = clockPointerY(theta, yc, (r*ratio) / 100);
 
         g.setColor(color);
         g.fillPolygon(xx, yy, 3);
