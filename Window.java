@@ -10,6 +10,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+abstract interface ValueSetter {    void set(int value);    }
+abstract interface ColorSetter {    void set(Color color);  }
+
+
 public class Window extends JFrame implements ActionListener, KeyListener, SignalReceiver {
 
     /** Holds the clock, and the menubar
@@ -20,19 +24,48 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
     private boolean isMenuBarShown;
     private final JMenuBar menuBar = new JMenuBar();
     private final JMenu menuColors = new JMenu("Colors");
-    private final JMenu menuEdit = new JMenu("Edit");
+    private final JMenu menuEdit = new JMenu("Settings");
 
-    private final ColorMenu menuForegroundColor = new ColorMenu("Foreground color", Color.WHITE, this);
-    private final ColorMenu menuBackgroundColor = new ColorMenu("Background color", Color.BLACK, this);
-    private final ColorMenu menuCPHourColor = new ColorMenu("Hour clock pointer", Color.WHITE, this);
-    private final ColorMenu menuCPMinuteColor = new ColorMenu("Minute clock pointer", Color.WHITE, this);
-    private final ColorMenu menuCPSecondColor = new ColorMenu("Second clock pointer", Color.RED, this);
+    private final ColorMenu menuForegroundColor = new ColorMenu("Foreground color", 
+        Clock.DEF_FOREGROUD_COLOR, this);
+    private final ColorMenu menuBackgroundColor = new ColorMenu("Background color", 
+        Clock.DEF_BACKGROUD_COLOR, this);
+    private final ColorMenu menuCPHourColor = new ColorMenu("Hour clock pointer", 
+        Clock.DEF_CPHOUR_COLOR, this);
+    private final ColorMenu menuCPMinuteColor = new ColorMenu("Minute clock pointer", 
+        Clock.DEF_CPMINUTE_COLOR, this);
+    private final ColorMenu menuCPSecondColor = new ColorMenu("Second clock pointer", 
+        Clock.DEF_CPSECOND_COLOR, this);
 
     private final JMenuItem itemHide = new JMenuItem("Hide menu bar : h");
     private final FontMenu menuFont = new FontMenu("Font", Clock.DEF_FONT_NAME, Clock.DEF_FONT_SIZE, this);
-    private final ParamMenuItem itemBorderR = new ParamMenuItem("Border R",
-        "Set the distance between circle and numerals", "Pick a value", 
-        JOptionPane.INFORMATION_MESSAGE, Clock.DEF_BORDER_R, this);
+
+    private final ParamMenuItem[] items = new ParamMenuItem[Clock.N_INT_PARAMETERS];
+    private final ValueSetter[] itemsSetters;
+    private final String[] itemsNames = {
+        "Border R",             "Border X",             "Border Y",
+        "Hour CP Ratio",        "Minute CP Ratio",      "Seconds CP Ratio",
+        "Hour CP Thickness",    "Minute CP Thickness",  "Seconds CP Thickness",
+        "Clock thickness"
+    };
+    private final String[] itemsMessages = {
+        "Set the distance between circle and numerals",
+        "Set the horizontal gap",
+        "Set the vertical gap",
+        "Set the hour clock pointer ratio (% of total radius)",
+        "Set the minute clock pointer ratio (% of total radius)",
+        "Set the second clock pointer ratio (% of total radius)",
+        "Set the hour clock pointer thickness (px)",
+        "Set the minute clock pointer thickness (px)",
+        "Set the second clock pointer thickness (px)",
+        "Set the clock's perimeter thickness"
+    };
+    private final int[] itemsDefs = {
+        Clock.DEF_BORDER_R,         Clock.DEF_BORDER_X,             Clock.DEF_BORDER_Y,
+        Clock.DEF_CPHOUR_RATIO,     Clock.DEF_CPMINUTE_RATIO,       Clock.DEF_CPSECOND_RATIO,
+        Clock.DEF_CPHOUR_THICKNESS, Clock.DEF_CPMINUTE_THICKNESS,   Clock.DEF_CPSECOND_THICKNESS,
+        Clock.DEF_CLOCK_THICKNESS
+    };
 
     private Clock clock;
 
@@ -42,6 +75,7 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         this.setSize(350, 350);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        clock = new Clock();
 
         //   COLOR  MENU
         menuColors.add(menuBackgroundColor);
@@ -60,15 +94,24 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         menuEdit.add(menuFont);
         menuEdit.addSeparator();
 
-        menuEdit.add(itemBorderR);
+        for (int i = 0; i < Clock.N_INT_PARAMETERS; i++) {
+            items[i] = new ParamMenuItem(itemsNames[i], itemsMessages[i],
+                "Pick a value", JOptionPane.INFORMATION_MESSAGE, itemsDefs[i], this);
+            menuEdit.add(items[i]);
+        }
+        itemsSetters = new ValueSetter[] {
+            clock::setBorderR,          clock::setBorderX,           clock::setBorderY,
+            clock::setCPHourRatio,      clock::setCPMinuteRatio,     clock::setCPSecondRatio,
+            clock::setCPHourThickness,  clock::setCPMinuteThickness, clock::setCPSecondThickness,
+            clock::setClockThickness
+        };
+        // itemsSetters = itemsSettersTmp;
 
-
-        menuBar.add(menuColors);
         menuBar.add(menuEdit);
+        menuBar.add(menuColors);
         isMenuBarShown = true;
         this.addKeyListener(this);
         
-        clock = new Clock();
         this.setContentPane(clock);
         this.setJMenuBar(menuBar);
 
@@ -82,7 +125,10 @@ public class Window extends JFrame implements ActionListener, KeyListener, Signa
         clock.setCPMinuteColor(menuCPMinuteColor.getMenuColor());
         clock.setCPSecondColor(menuCPSecondColor.getMenuColor());
         clock.setFont(menuFont.getFontName(), menuFont.getFontSize());
-        clock.setBorderR(itemBorderR.value());
+
+        for (int i = 0; i < Clock.N_INT_PARAMETERS; i++) {
+            itemsSetters[i].set(items[i].value());
+        }
         clock.repaint();
     }
 

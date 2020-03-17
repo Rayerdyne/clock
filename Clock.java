@@ -19,9 +19,25 @@ public class Clock extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private static final int minInHour = 60;
 
+    public static final int N_INT_PARAMETERS = 10;
+
     public static final String DEF_FONT_NAME = "Courier";
     public static final int DEF_FONT_SIZE = 14;
+    public static final Color DEF_BACKGROUD_COLOR = Color.BLACK;
+    public static final Color DEF_FOREGROUD_COLOR = Color.WHITE;
+    public static final int DEF_CLOCK_THICKNESS = 5;
+    public static final int DEF_BORDER_X = 10;
+    public static final int DEF_BORDER_Y = 10;
     public static final int DEF_BORDER_R = 20;
+    public static final int DEF_CPHOUR_RATIO = 30;
+    public static final int DEF_CPMINUTE_RATIO = 50;
+    public static final int DEF_CPSECOND_RATIO = 60;
+    public static final int DEF_CPHOUR_THICKNESS = 5;
+    public static final int DEF_CPMINUTE_THICKNESS = 5;
+    public static final int DEF_CPSECOND_THICKNESS = 2;
+    public static final Color DEF_CPHOUR_COLOR = Color.WHITE;
+    public static final Color DEF_CPMINUTE_COLOR = Color.WHITE;
+    public static final Color DEF_CPSECOND_COLOR = Color.RED;
 
     private LocalTime time;
     private final Timer timer = new Timer(1000, this);
@@ -47,22 +63,22 @@ public class Clock extends JPanel implements ActionListener {
     public Clock() {
         time = LocalTime.now();
         timer.start();
-        clockThickness = 5;
-        borderX = 10;
-        borderY = 10;
+        clockThickness = DEF_CLOCK_THICKNESS;
+        borderX = DEF_BORDER_X;
+        borderY = DEF_BORDER_Y;
         borderR = DEF_BORDER_R;
-        cpHourRatio = 30;
-        cpMinuteRatio = 50;
-        cpSecondRatio = 60;
-        cpHourThickness = 5;
-        cpMinuteThickness = 5;
-        cpSecondThickness = 2;
-        background = Color.BLACK;
-        foreground = Color.WHITE;
-        cpHourColor = Color.WHITE;
-        cpMinuteColor = Color.WHITE;
-        cpSecondColor = Color.RED;
-        fontsize = 14;
+        cpHourRatio = DEF_CPHOUR_RATIO;
+        cpMinuteRatio = DEF_CPMINUTE_RATIO;
+        cpSecondRatio = DEF_CPSECOND_RATIO;
+        cpHourThickness = DEF_CPHOUR_THICKNESS;
+        cpMinuteThickness = DEF_CPMINUTE_THICKNESS;
+        cpSecondThickness = DEF_CPSECOND_THICKNESS;
+        background = DEF_BACKGROUD_COLOR;
+        foreground = DEF_FOREGROUD_COLOR;
+        cpHourColor = DEF_CPHOUR_COLOR;
+        cpMinuteColor = DEF_CPMINUTE_COLOR;
+        cpSecondColor = DEF_CPSECOND_COLOR;
+        fontsize = DEF_FONT_SIZE;
         font = new Font(DEF_FONT_NAME, Font.PLAIN, DEF_FONT_SIZE);
     }
 
@@ -148,13 +164,22 @@ public class Clock extends JPanel implements ActionListener {
         
     }
     
-    public void setForegroundColor(Color c) {   foreground = c;     }
-    public void setBackgroundColor(Color c) {   background = c;     }
-    public void setCPHourColor(Color c)     {   cpHourColor = c;    }
+    public void setForegroundColor(Color c) {   foreground = c;   }
+    public void setBackgroundColor(Color c) {   background = c;   }
+    public void setCPHourColor(Color c)     {   cpHourColor = c;  }
     public void setCPMinuteColor(Color c)   {   cpMinuteColor = c;  }
     public void setCPSecondColor(Color c)   {   cpSecondColor = c;  }
 
-    public void setBorderR(int value)       {   borderR = value;    }
+    public void setClockThickness(int value)    {   clockThickness = value;  }
+    public void setBorderR(int value)           {   borderR = value;  }
+    public void setBorderX(int value)           {   borderX = value;  }
+    public void setBorderY(int value)           {   borderY = value;  }
+    public void setCPHourRatio(int value)       {   cpHourRatio = value;  }
+    public void setCPMinuteRatio(int value)     {   cpMinuteRatio = value;  }
+    public void setCPSecondRatio(int value)     {   cpSecondRatio = value;  }
+    public void setCPHourThickness(int value)   {   cpHourThickness = value;  }
+    public void setCPMinuteThickness(int value) {   cpMinuteThickness = value;  }
+    public void setCPSecondThickness(int value) {   cpSecondThickness = value;  }
 
     public String fontName()    {   return font.getFontName();      }
     public int fontSize()       {   return fontsize;                }

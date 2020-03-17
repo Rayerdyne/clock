@@ -12,7 +12,7 @@ public class ParamMenuItem extends JMenuItem implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private int value;
-    private String message, title;
+    private String name, message, title;
     private int messageType;
     private final SignalReceiver receiver;
 
@@ -21,9 +21,11 @@ public class ParamMenuItem extends JMenuItem implements ActionListener {
 
         super(name + ": " + value);
         
+        this.name = name;
         this.message = message;
         this.title = title;
         this.messageType = messageType;
+        this.value = value;
         this.receiver = receiver;
         this.addActionListener(this);
     }
@@ -33,6 +35,7 @@ public class ParamMenuItem extends JMenuItem implements ActionListener {
         try {   
             int newv = Integer.parseInt(s);
             value = newv;
+            this.setText(name + ": " + value);
         } catch(NumberFormatException ex) {
                 System.out.println("ERROR: could not parse integer : " + ex);
         }
